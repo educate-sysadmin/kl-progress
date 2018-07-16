@@ -61,6 +61,7 @@ function kl_progress_checkbox( $atts, $content = null ) {
 			'category2' => null,
 			'readonly' => null,
 			'visible' => "true", // only really useful with readonly option
+			'class' => "", // optional class(es) to add
 		), 
 		$atts 
 	);	
@@ -80,11 +81,19 @@ function kl_progress_checkbox( $atts, $content = null ) {
 		return false;
 	}
 	
+	if ($attributes['class'] !== null && $attributes['class'] !== "" && preg_match("/[A-Za-z\s\-_0-9]+/",$attributes['class']) === 0) {	
+		return false;
+	}	
+	
 	$user = wp_get_current_user(); 
 	$username = $user?$user->user_login:'visitor'; // || null	
 	
 	$output = '';
-    $output .= '<div class="kl_progress kl_progress_checkbox">';
+	$class = "kl_progress kl_progress_checkbox";
+	if ($attributes['class'] !== null && $attributes['class'] !== "") {
+		$class .= ' '.$attributes['class'];
+	}
+    $output .= '<div class="'.$class.'">';
     $output .= '<form action="" method="post">';
   	$output .= '<input type="hidden" value="'.$attributes['milestone'].'" name="milestone" id="milestone_'.$kl_progress_count.'" />'; 
   	// include request else it defaults to wp ajax page
@@ -92,7 +101,11 @@ function kl_progress_checkbox( $atts, $content = null ) {
 	$output .= '<input type="hidden" value="'.$attributes['category1'].'" name="category1" id="category1_'.$kl_progress_count.'" />';   	
 	$output .= '<input type="hidden" value="'.$attributes['category2'].'" name="category2" id="category2_'.$kl_progress_count.'" />';
   	//$output .= '<input type = "submit" value="submit" name = "submit" />'; // todo
-  	$output .= '<input type="checkbox" value="1" name="progressor" id="progressor_'.$kl_progress_count.'" class="progressor" ref="'.$kl_progress_count.'"';
+	$class = "kl_progress progressor";
+	if ($attributes['class'] !== null && $attributes['class'] !== "") {
+		$class .= ' '.$attributes['class'];
+	}  	
+  	$output .= '<input type="checkbox" value="1" name="progressor" id="progressor_'.$kl_progress_count.'" class="'.$class.'" ref="'.$kl_progress_count.'"';
   	// get state from db
   	$sql = 'SELECT done FROM '.$wpdb->prefix.'kl_progress'.' WHERE user = "'.$username.'" AND milestone = "'.$attributes['milestone'].'" LIMIT 1;';
 	$result = $wpdb->get_row( $sql );
