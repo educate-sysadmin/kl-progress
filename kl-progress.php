@@ -174,6 +174,8 @@ function kl_progress() {
 	$_POST['progressor'] = isset($_POST['progressor'])?(int)$_POST['progressor']:0;
 	$_POST['request'] = isset($_POST['request'])?$_POST['request']:null;
 	
+	var_dump($_POST);
+	
 	// add roles and categories (if not posted), using kl-access-logs code and settings
 	$roles = '';
 	if (function_exists('klal_get_user_roles')) {
@@ -252,8 +254,8 @@ function kl_progress_js() { ?>
 		var ref = this.getAttribute('ref');
 		data.milestone = jQuery('#milestone_'+ref).val();
 		data.request = jQuery('#request_'+ref).val();
-		data.category1 = jQuery('#category1'+ref).val();
-		data.category2 = jQuery('#category2'+ref).val();
+		data.category1 = jQuery('#category1_'+ref).val();
+		data.category2 = jQuery('#category2_'+ref).val();
 		data.progressor = jQuery('#progressor_'+ref).is(':checked')?"1":"0";
 
 		jQuery.post(ajax_object.ajax_url, data, function(response) {			
