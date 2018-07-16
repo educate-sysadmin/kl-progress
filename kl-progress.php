@@ -270,7 +270,7 @@ function kl_progress_js_auto() { ?>
 	
 	<script type="text/javascript" >
 		
-		jQuery( window ).unload(function() {
+		jQuery( document ).ready(function() {
 			// only activate for pages with single checkbox
 			if (jQuery('.progressor').length == 1) {
 				// only check unchecked checkboxes
